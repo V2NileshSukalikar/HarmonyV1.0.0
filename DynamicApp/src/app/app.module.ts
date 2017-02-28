@@ -5,15 +5,16 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { HtmlComponent } from '../app/pages/html/html.component';
+import { HtmlComponent } from './templatecomponents/html/html.component';
 import { PageComponent } from './page/page.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageComponent
-],
+    PageComponent,
+    HtmlComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,
