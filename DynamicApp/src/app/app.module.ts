@@ -28,7 +28,7 @@ import { PagedataService } from './services/pagedata.service';
       },
       {
         path: '',
-        redirectTo: 'page/home',
+        redirectTo: 'page/Page1',
         pathMatch: 'full'
       }
     ])
