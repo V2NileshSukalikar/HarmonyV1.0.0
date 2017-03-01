@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { PagedataService } from '../services/pagedata.service';
 
 @Component({
   selector: 'app-page',
@@ -6,10 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./page.component.css']
 })
 export class PageComponent implements OnInit {
-
-  constructor() { }
+  @Input()
+  data: Object = {};
+  constructor(private pagedataservice: PagedataService) { }
 
   ngOnInit() {
+    this.getCMSData();
   }
-
+  getCMSData(): void {
+    this.pagedataservice
+      .getCMSData('Page1', true)
+      .then((data) => {
+        this.data = data.GlobalData;
+        console.log(this.data);
+      }
+      );
+  }
 }

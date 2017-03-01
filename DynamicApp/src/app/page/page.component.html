@@ -1,1 +1,25 @@
-<app-html></app-html>
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+  <div class="flex-container">
+    <header>
+      <img style="display: inline;" [src]="data.HeaderData?.Companylogo" alt="logo" />
+      <h1 style="display: inline;">{{data.HeaderData?.CompanyName}}</h1>
+    </header>
+    <nav class="nav">
+      <ul>
+        <li *ngFor="let item of data.MenuListData">
+          <a [href]="item.MenuUrl">{{item.MenuName}}</a>
+        </li>
+      </ul>
+    </nav>
+    <div>
+      Hi There
+    </div>
+    <footer>{{data.Footerdata?.copyrighttext}}</footer>
+  </div>
+</body>
+
+</html>
