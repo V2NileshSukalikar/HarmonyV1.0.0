@@ -9,6 +9,7 @@ import { HtmlComponent } from './templatecomponents/html/html.component';
 import { PageComponent } from './page/page.component';
 
 import { PagedataService } from './services/pagedata.service';
+import { AppRoutingModule }     from './routingmodule';
 
 
 @NgModule({
@@ -21,17 +22,8 @@ import { PagedataService } from './services/pagedata.service';
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot([
-      {
-        path: 'page/:token',
-        component: PageComponent
-      },
-      {
-        path: '',
-        redirectTo: 'page/Page1',
-        pathMatch: 'full'
-      }
-    ])
+    AppRoutingModule
+        
   ],
 
   providers: [PagedataService],
