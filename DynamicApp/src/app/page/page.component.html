@@ -1,1 +1,17 @@
-<app-html></app-html>
+<div *ngFor="let orient of pagedata.orientation" class="row">
+    <div *ngFor="let item of createRange(orient) " [style.width]="getclassfromorientation(orient) + '%'" style="float:left;min-width: 170px;" >
+        
+    
+        <!--[innerHTML]="pagedata.contetntData[pagecounter].data"-->
+  
+
+            
+            <app-html [htmlstring]="pagedata.contetntData[pagecounter].data" *ngIf="pagedata.contetntData[pagecounter].type=='Html'">
+
+            </app-html>
+         {{incrementpagecounter()}}
+        <!--</div>  -->
+    </div>
+
+</div>
+

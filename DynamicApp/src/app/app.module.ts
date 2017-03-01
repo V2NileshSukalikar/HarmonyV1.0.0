@@ -22,11 +22,11 @@ import { PageComponent } from './page/page.component';
     RouterModule.forRoot([
       {
         path: 'page/:token',
-        component: HtmlComponent
+        component: PageComponent
       },
       {
         path: '',
-        redirectTo: 'page/home',
+        redirectTo: 'page/Page1',
         pathMatch: 'full'
       }
     ])
