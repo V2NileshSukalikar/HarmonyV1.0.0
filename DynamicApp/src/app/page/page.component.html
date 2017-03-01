@@ -15,7 +15,7 @@
         <nav class="nav">
           <ul>
             <li *ngFor="let item of data.MenuListData">
-              <a [href]="item.MenuUrl"  >{{item.MenuName}}</a>
+              <a  [routerLink]="item.MenuUrl"  (click)="resertcounter()" >{{item.MenuName}}</a>
               
             </li>
           </ul>
@@ -24,18 +24,18 @@
       <div class="col-md-10">
         <div>
           <!-- this is Body part -->
-
-          <div *ngFor="let orient of pagedata.orientation" class="row">
-            <div *ngFor="let item of createRange(orient) " [style.width]="getclassfromorientation(orient) + '%'" style="float:left;min-width: 170px;border:1px solid gray;">
+          <div *ngFor="let orient of pagedata.orientation;let j=index " class="row">
+              
+            <div *ngFor="let item of createRange(orient);let i=index " [style.width]="getclassfromorientation(orient) + '%'" style="float:left;min-width: 170px;border:1px solid gray;">
 
 
               <!--[innerHTML]="pagedata.contetntData[pagecounter].data"-->
 
 
 
-              <app-html [htmlstring]="pagedata.contetntData[pagecounter].data" *ngIf="pagedata.contetntData[pagecounter]?.type=='Html'">
+              <app-html [htmlstring]="pagedata.contetntData[pagecounter]?.data" >
 
-              </app-html>
+              </app-html>{{pagecounter}}
               {{incrementpagecounter()}}
               <!--</div>  -->
             </div>
