@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Input } from '@angular/core';
 
 @Component({
   selector: 'app-html',
@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HtmlComponent implements OnInit {
 
+theHtmlString="Loading" as string;
+ @Input() htmlstring: string;
+
   constructor() { }
 
   ngOnInit() {
+
   }
+
+
 
 }
