@@ -1,6 +1,8 @@
+
 import { Component, OnInit } from '@angular/core';
 import { PagedataService } from '../services/pagedata.service'
 import { ActivatedRoute, Params } from '@angular/router';
+
 
 @Component({
   selector: 'app-page',
@@ -10,12 +12,16 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class PageComponent implements OnInit {
 
+
+
   constructor(private pagedataService: PagedataService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getpagedata();
+    //  this.getCMSData();
   }
   pagedata = {} as any;
+  data={} as any;
   pagecounter =0 as number; 
   getpagedata(): void {
 
@@ -28,10 +34,11 @@ export class PageComponent implements OnInit {
         console.log(pagename);
       });
 
-    this.pagedataService.getdata(pagename, true).then(
+    this.pagedataService.getCMSData(pagename, true).then(
       (session) => {
 
         this.pagedata = session.pagespecificData;
+        this.data = session.GlobalData;
         console.log(session.pagespecificData);
       }
     )
@@ -58,5 +65,16 @@ incrementpagecounter(){
   return items;
 }
 
+// getCMSData(): void {
+//     this.pagedataService
+//       .getCMSData('Page1', true)
+//       .then((data) => {
+        
+//         console.log(this.data);
+//       }
+//       );
+//   }
+
 
 }
+

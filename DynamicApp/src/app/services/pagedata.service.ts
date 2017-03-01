@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import 'rxjs/add/operator/toPromise';
+
+import { Config } from '../models/config';
 
 import { Headers, Http, Response } from '@angular/http'
 
@@ -9,20 +12,21 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class PagedataService {
 
+config = new Config();
 
     constructor(private http: Http) {
 
     };
 
-    getdata(pagename: string, isheader: boolean): any {
-        var headers = new Headers();
-        headers.append('Content-Type', 'application/json');
+   
 
-        return this.http.get("http://harmonyservice/api/CMSData/GetcmsData/" + pagename + "/" + isheader).toPromise().then(
-            responce => responce.json() as any
-
-        ).catch(this.handleError)
-
+     getCMSData(pageName: string, isHeader: boolean): any {
+         
+        const url = this.config.apiURl + '/' + pageName + '/' + isHeader;
+        return this.http.get(url)
+            .toPromise()
+            .then(response => response.json() as any)
+            .catch(this.handleError);
     }
 
     private handleError(error: Response | any) {
@@ -38,6 +42,5 @@ export class PagedataService {
         console.log(errMsg);
         return Observable.throw(errMsg);
     }
-
 
 }

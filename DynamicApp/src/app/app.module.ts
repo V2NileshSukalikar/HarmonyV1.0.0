@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { HtmlComponent } from './templatecomponents/html/html.component';
 import { PageComponent } from './page/page.component';
 
+import { PagedataService } from './services/pagedata.service';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +34,7 @@ import { PageComponent } from './page/page.component';
     ])
   ],
 
-  providers: [],
+  providers: [PagedataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
