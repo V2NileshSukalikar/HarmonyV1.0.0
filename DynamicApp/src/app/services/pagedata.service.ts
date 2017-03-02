@@ -12,8 +12,9 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class PagedataService {
 
+    GlobalData ={} as any;
     config = new Config();
-
+    pagecounter=0 as number;
     constructor(private http: Http) {
     };
 
