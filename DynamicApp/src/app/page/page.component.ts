@@ -7,7 +7,7 @@ import { ActivatedRoute, Params } from '@angular/router';
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.css'],
-  providers: [PagedataService]
+
 })
 export class PageComponent implements AfterViewInit, OnInit {
 
@@ -17,6 +17,7 @@ export class PageComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.getpagedata();
+    this.pagecounter = 0;
   }
 
   ngAfterViewInit() {
@@ -43,11 +44,11 @@ export class PageComponent implements AfterViewInit, OnInit {
 
         this.pagedataService.getCMSData(pagename, true).then(
           (session) => {
+this.pagedataService.pagecounter=0;
+            this.pagedata = session.pagespecificData
 
-            this.zone.run(() => this.pagedata = session.pagespecificData
 
-            );
-            this.zone.run(() => this.data = session.GlobalData);
+            this.pagedataService.GlobalData = session.GlobalData;
             var content = this.pagedata.contetntData.length;
             var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
 
@@ -74,8 +75,14 @@ export class PageComponent implements AfterViewInit, OnInit {
   }
 
   incrementpagecounter() {
-    if (this.pagedata != null && this.pagecounter < this.pagedata.contetntData.length)
-    { this.pagecounter = this.pagecounter + 1; }
+    if (this.pagedata != null && this.pagedataService.pagecounter < this.pagedata.contetntData.length)
+    { this.pagedataService.pagecounter = this.pagedataService.pagecounter + 1; }
+    if(this.pagedataService.pagecounter == this.pagedata.contetntData.length)
+    {
+      this.pagedataService.pagecounter=this.pagedata.contetntData.length
+//this.pagedataService.pagecounter=-1;
+
+    }
 
   }
 
