@@ -1,9 +1,7 @@
 
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef,NgZone } from '@angular/core';
-import { PagedataService } from '../services/pagedata.service'
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { PagedataService } from '../services/pagedata.service';
 import { ActivatedRoute, Params } from '@angular/router';
-
-
 
 @Component({
   selector: 'app-page',
@@ -13,35 +11,29 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class PageComponent implements AfterViewInit, OnInit {
 
-
-
-  constructor(private pagedataService: PagedataService, private route: ActivatedRoute, private cdRef: ChangeDetectorRef, public zone: NgZone) {
-
-
+  constructor(private pagedataService: PagedataService, private route: ActivatedRoute,
+    private cdRef: ChangeDetectorRef, public zone: NgZone) {
   }
 
   ngOnInit() {
-
-    // setTimeout(() => {this.getpagedata()},1000);
-    this.getpagedata();//)
+    this.getpagedata();
   }
 
   ngAfterViewInit() {
-  this.pagecounter = 0
+    this.pagecounter = 0;
   }
 
-  resertcounter(){
-
-    this.pagecounter=0;
+  resertcounter() {
+    this.pagecounter = 0;
   }
 
-  pagedata = {} as any;
+  pagedata: any = {};
   data = {} as any;
   pagecounter = 0 as number;
 
   getpagedata(): void {
 
-    let pagename = "";
+    let pagename = '';
 
     this.route.params
       .subscribe((params: Params) => {
@@ -52,61 +44,44 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagedataService.getCMSData(pagename, true).then(
           (session) => {
 
-            this.zone.run(() => this.pagedata = session.pagespecificData 
-           
+            this.zone.run(() => this.pagedata = session.pagespecificData
+
             );
-              this.zone.run(() =>   this.data = session.GlobalData);
+            this.zone.run(() => this.data = session.GlobalData);
             var content = this.pagedata.contetntData.length;
             var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
 
-
-
-
             if (content > orient) {
               var difference = content - orient;
-
-
               var lastdata = this.pagedata.orientation[this.pagedata.orientation.length - 1];
               var counter = 0;
               if (difference > lastdata) {
                 counter = Math.ceil(difference / lastdata);
-
               }
-              else if(difference>0)
-              {
-counter=1;
-
+              else if (difference > 0) {
+                counter = 1;
               }
 
               for (var i = 0; i < counter; i++) {
-
                 this.pagedata.orientation.push(lastdata);
-
               }
-
             }
-
-            
-            //  this.cdRef.detectChanges();
             console.log(session.pagespecificData);
           }
-        )
+        );
       });
 
   }
 
   incrementpagecounter() {
     if (this.pagedata != null && this.pagecounter < this.pagedata.contetntData.length)
-    { this.pagecounter = this.pagecounter + 1 }
-     
+    { this.pagecounter = this.pagecounter + 1; }
+
   }
 
   getclassfromorientation(orient: number): number {
-
     var data = Math.round(100 / orient);
     return data;
-
-
   }
 
   createRange(number): any {
@@ -116,17 +91,6 @@ counter=1;
     }
     return items;
   }
-
-  // getCMSData(): void {
-  //     this.pagedataService
-  //       .getCMSData('Page1', true)
-  //       .then((data) => {
-
-  //         console.log(this.data);
-  //       }
-  //       );
-  //   }
-
 
 }
 

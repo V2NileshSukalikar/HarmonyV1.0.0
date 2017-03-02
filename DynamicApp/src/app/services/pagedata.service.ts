@@ -12,16 +12,12 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class PagedataService {
 
-config = new Config();
+    config = new Config();
 
     constructor(private http: Http) {
-
     };
 
-   
-
-     getCMSData(pageName: string, isHeader: boolean): any {
-         
+    getCMSData(pageName: string, isHeader: boolean): any {
         const url = this.config.apiURl + '/' + pageName + '/' + isHeader;
         return this.http.get(url)
             .toPromise()
