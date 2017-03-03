@@ -7,19 +7,23 @@ import { ActivatedRoute, Params } from '@angular/router';
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.css'],
-  providers: [PagedataService]
+
 })
 export class PageComponent implements AfterViewInit, OnInit {
 
   constructor(private pagedataService: PagedataService, private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef, public zone: NgZone) {
+     
   }
 
   ngOnInit() {
+    
     this.getpagedata();
+    this.pagecounter = 0;
   }
 
   ngAfterViewInit() {
+    
     this.pagecounter = 0;
   }
 
@@ -44,38 +48,49 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagedataService.getCMSData(pagename, true).then(
           (session) => {
 
-            this.zone.run(() => this.pagedata = session.pagespecificData
+            setTimeout(() => {
+              this.pagedataService.pagecounter = 0;
+              this.pagedata = session.pagespecificData
 
-            );
-            this.zone.run(() => this.data = session.GlobalData);
-            var content = this.pagedata.contetntData.length;
-            var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
 
-            if (content > orient) {
-              var difference = content - orient;
-              var lastdata = this.pagedata.orientation[this.pagedata.orientation.length - 1];
-              var counter = 0;
-              if (difference > lastdata) {
-                counter = Math.ceil(difference / lastdata);
-              }
-              else if (difference > 0) {
-                counter = 1;
-              }
+              this.pagedataService.GlobalData = session.GlobalData;
+              var content = this.pagedata.contetntData.length;
+              var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
 
-              for (var i = 0; i < counter; i++) {
-                this.pagedata.orientation.push(lastdata);
+              if (content > orient) {
+                var difference = content - orient;
+                var lastdata = this.pagedata.orientation[this.pagedata.orientation.length - 1];
+                var counter = 0;
+                if (difference > lastdata) {
+                  counter = Math.ceil(difference / lastdata);
+                }
+                else if (difference > 0) {
+                  counter = 1;
+                }
+
+                for (var i = 0; i < counter; i++) {
+                  this.pagedata.orientation.push(lastdata);
+                }
               }
+              console.log(session.pagespecificData);
             }
-            console.log(session.pagespecificData);
+              , 100);
           }
         );
       });
 
+
   }
 
   incrementpagecounter() {
-    if (this.pagedata != null && this.pagecounter < this.pagedata.contetntData.length)
-    { this.pagecounter = this.pagecounter + 1; }
+    if (this.pagedata != null && this.pagedataService.pagecounter < this.pagedata.contetntData.length)
+    { this.pagedataService.pagecounter = this.pagedataService.pagecounter + 1; }
+    //     if(this.pagedataService.pagecounter == this.pagedata.contetntData.length)
+    //     {
+    //       this.pagedataService.pagecounter=this.pagedata.contetntData.length
+    // //this.pagedataService.pagecounter=-1;
+
+    //     }
 
   }
 
