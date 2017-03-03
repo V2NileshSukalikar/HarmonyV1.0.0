@@ -1,4 +1,40 @@
-
- <a routerLink="/page/Page4" routerLinkActive="active">Page1</a>
+<a routerLink="/page/Page4" routerLinkActive="active">Page1</a>
 <a routerLink="/page/Page2" routerLinkActive="active">Page2</a>
- <router-outlet></router-outlet>
+
+<html>
+
+<head>
+</head>
+
+<body>
+    <a (click)="getdata()">getdtata</a>
+    <div class="flex-container">
+        <header>
+            <img style="height:80px; width:80px " [src]="globalservice.GlobalData.HeaderData?.Companylogo" alt="logo" />
+            <h1 style="display: inline;">{{globalservice.GlobalData.HeaderData?.CompanyName}}</h1>
+        </header>
+        <div class="row">
+            <div class="col-md-2">
+
+                <nav class="nav">
+                    <ul>
+                        <li *ngFor="let item of globalservice.GlobalData.MenuListData">
+                            <a [routerLink]="item.MenuUrl">{{item.MenuName}}</a>
+
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-md-10">
+
+                <router-outlet></router-outlet>
+            </div>
+
+        </div>
+
+
+        <footer class="footer">{{globalservice.GlobalData.Footerdata?.copyrighttext}}</footer>
+    </div>
+</body>
+
+</html>

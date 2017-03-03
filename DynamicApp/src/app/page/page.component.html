@@ -1,58 +1,25 @@
-<html>
 
-<head>
-</head>
-
-<body>
-  <div class="flex-container">
-    <header>
-      <img style="height:80px; width:80px " [src]="data.HeaderData?.Companylogo" alt="logo" />
-      <h1 style="display: inline;">{{data.HeaderData?.CompanyName}}</h1>
-    </header>
-    <div class="row">
-      <div class="col-md-2">
-
-        <nav class="nav">
-          <ul>
-            <li *ngFor="let item of data.MenuListData">
-              <a [href]="item.MenuUrl"  >{{item.MenuName}}</a>
-              
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div class="col-md-10">
-        <div>
           <!-- this is Body part -->
-
-          <div *ngFor="let orient of pagedata.orientation" class="row">
-            <div *ngFor="let item of createRange(orient) " [style.width]="getclassfromorientation(orient) + '%'" style="float:left;min-width: 170px;border:1px solid gray;">
+          <h4>orientation {{pagedata.orientation}}</h4>
+          <div *ngFor="let orient of pagedata.orientation;let j=index " class="row">
+              
+            <div *ngFor="let item of createRange(orient);let i=index " [style.width]="getclassfromorientation(orient) + '%'" style="float:left;min-width: 170px;border:1px solid gray;">
 
 
               <!--[innerHTML]="pagedata.contetntData[pagecounter].data"-->
 
 
-
-              <app-html [htmlstring]="pagedata.contetntData[pagecounter].data" *ngIf="pagedata.contetntData[pagecounter]?.type=='Html'">
+{{pagedataService.pagecounter}}
+              <app-html [htmlstring]="pagedata.contetntData[pagedataService.pagecounter]?.data" *ngIf="pagedata.contetntData[pagedataService.pagecounter]?.type=='Html'" >
 
               </app-html>
               {{incrementpagecounter()}}
               <!--</div>  -->
             </div>
 
+
           </div>
           <!--body part end -->
 
 
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <footer class="footer">{{data.Footerdata?.copyrighttext}}</footer>
-  </div>
-</body>
-
-</html>
+        
