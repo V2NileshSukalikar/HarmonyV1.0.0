@@ -15,6 +15,7 @@ export class PagedataService {
     GlobalData ={} as any;
     config = new Config();
     pagecounter=0 as number;
+    selectedlink:string;
     constructor(private http: Http) {
     };
 

@@ -1,5 +1,6 @@
 import { Component, } from '@angular/core';
 import { PagedataService } from './services/pagedata.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent {
   title = 'app works!';
 
   data = {} as any;
-  constructor(private globalservice: PagedataService) {
+  constructor(private globalservice: PagedataService,private router: Router) {
 
     this.data = globalservice.GlobalData;
   }
@@ -20,12 +21,18 @@ export class AppComponent {
     this.data = this.globalservice.GlobalData;
   }
 
-  resertcounter() {
+  setlink(url) {
 
    // alert(this.globalservice.pagecounter)
-    this.globalservice.pagecounter = 0;
+this.globalservice.selectedlink=url;
+    // this.router.navigate([url]);
 
   }
+
+  isDisabled(link){
+
+ return   this.globalservice.selectedlink==link
+  } 
 }
 
 
