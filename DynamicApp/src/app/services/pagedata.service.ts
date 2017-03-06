@@ -27,7 +27,11 @@ export class PagedataService {
     getData(pageName: string, isHeader: boolean): any {
         if (this.data) {
             if (this.data.PageName === pageName) {
-                return Observable.of(this.data);
+                if (this.data.pagespecificData.isCacheble) {
+                    return Observable.of(this.data);
+                } else {
+                    return this.getDataFromServe(pageName, isHeader);
+                }
             } else {
                 return this.isLocalStorageDataAvailable(pageName, isHeader);
             }
@@ -72,8 +76,16 @@ export class PagedataService {
                     return 'FAILURE';
                 } else if (response.status === 200) {
                     this.data = response.json() as any;
-                    localStorage.setItem('global', JSON.stringify(this.data.GlobalData));
-                    localStorage.setItem(pageName, JSON.stringify(this.data.pagespecificData));
+                    if (localStorage.getItem('global') == null) {
+                        localStorage.setItem('global', JSON.stringify(this.data.GlobalData));
+                    }
+                    if (this.data.pagespecificData.isCacheble) {
+                        localStorage.setItem(pageName, JSON.stringify(this.data.pagespecificData));
+                    } else {
+                        if (localStorage.getItem(pageName) != null) {
+                            localStorage.removeItem(pageName);
+                        }
+                    }
                     return this.data;
                 }
                 // make it shared so more than one subscriber can get the result
