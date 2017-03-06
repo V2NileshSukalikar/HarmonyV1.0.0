@@ -18,19 +18,15 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagedata = {};
         this.data = {} as any;
         this.pagecounter = 0 as number;
-this.pagedataService.selectedlink="/page/"+params['token'];
-        this.getpagedata(params['token'])
+        this.pagedataService.selectedlink = '/page/' + params['token'];
+        this.getpagedata(params['token']);
       });
   }
 
   ngAfterContentInit() {
-
-    // Component content has been initialized
   }
 
   ngOnInit() {
-
-    //this.getpagedata();
     this.pagecounter = 0;
   }
 
@@ -57,14 +53,13 @@ this.pagedataService.selectedlink="/page/"+params['token'];
     pagename = name;
     console.log(pagename);
 
-    this.pagedataService.getCMSData(pagename, true).then(
+    this.pagedataService.getData(pagename, true).subscribe(
       (session) => {
 
         setTimeout(() => {
+
           this.pagedataService.pagecounter = 0;
-          this.pagedata = session.pagespecificData
-
-
+          this.pagedata = session.pagespecificData;
           this.pagedataService.GlobalData = session.GlobalData;
           var content = this.pagedata.contetntData.length;
           var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
@@ -86,7 +81,6 @@ this.pagedataService.selectedlink="/page/"+params['token'];
           }
 
           console.log(session.pagespecificData);
-
         }
           , 100);
       }
