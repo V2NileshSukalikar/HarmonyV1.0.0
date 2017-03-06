@@ -1,30 +1,85 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/toPromise';
-
-import { Config } from '../models/config';
-
-import { Headers, Http, Response } from '@angular/http'
-
+import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/share';
+import 'rxjs/add/operator/map';
 
+import { Config } from '../models/config';
+import { Data } from '../models/data';
 
 @Injectable()
 export class PagedataService {
 
-    GlobalData ={} as any;
+    GlobalData = {} as any;
     config = new Config();
-    pagecounter=0 as number;
-    selectedlink:string;
+    pagecounter = 0 as number;
+    selectedlink: string;
+
+    private data: any;
+    private observable: Observable<any>;
+
     constructor(private http: Http) {
     };
 
-    getCMSData(pageName: string, isHeader: boolean): any {
+    getData(pageName: string, isHeader: boolean): any {
+        if (this.data) {
+            if (this.data.PageName === pageName) {
+                return Observable.of(this.data);
+            } else {
+                return this.isLocalStorageDataAvailable(pageName, isHeader);
+            }
+        } else if (this.observable) {
+            // if `this.observable` is set then the request is in progress
+            // return the `Observable` for the ongoing request
+            return this.observable;
+        } else {
+            return this.isLocalStorageDataAvailable(pageName, isHeader);
+        }
+    }
+
+    private isLocalStorageDataAvailable(pageName: string, isHeader: boolean): any {
+        const storagedata: any = {};
+        const isGlobalDataAvailable = localStorage.getItem('global');
+        const isPageDataAvailable = localStorage.getItem(pageName);
+
+        storagedata.GlobalData = JSON.parse(isGlobalDataAvailable);
+        if (isPageDataAvailable != null) {
+            storagedata.pagespecificData = JSON.parse(isPageDataAvailable);
+            storagedata.PageName = pageName;
+            this.data = storagedata;
+            return Observable.of(this.data);
+        } else {
+            return this.getDataFromServe(pageName, isHeader);
+        }
+    }
+
+    private getDataFromServe(pageName: string, isHeader: boolean): any {
         const url = this.config.apiURl + '/' + pageName + '/' + isHeader;
-        return this.http.get(url)
-            .toPromise()
-            .then(response => response.json() as any)
-            .catch(this.handleError);
+        // example header (not necessary)
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        // create the request, store the `Observable` for subsequent subscribers
+        this.observable = this.http.get(url, {
+            headers: headers
+        })
+            .map(response => {
+                // when the cached data is available we don't need the `Observable` reference anymore
+                this.observable = null;
+                if (response.status === 400) {
+                    return 'FAILURE';
+                } else if (response.status === 200) {
+                    this.data = response.json() as any;
+                    localStorage.setItem('global', JSON.stringify(this.data.GlobalData));
+                    localStorage.setItem(pageName, JSON.stringify(this.data.pagespecificData));
+                    return this.data;
+                }
+                // make it shared so more than one subscriber can get the result
+            })
+            .share();
+        return this.observable;
     }
 
     private handleError(error: Response | any) {

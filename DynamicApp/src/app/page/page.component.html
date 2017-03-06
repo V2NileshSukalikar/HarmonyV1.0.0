@@ -1,26 +1,22 @@
+<!-- this is Body part -->
+<h4>orientation {{pagedata.orientation}}</h4>
+<div *ngFor="let orient of pagedata.orientation;let j=index " class="row">
 
-          <!-- this is Body part -->
-          <h4>orientation {{pagedata.orientation}}</h4>
-          <div *ngFor="let orient of pagedata.orientation;let j=index " class="row">
-              
-            <div *ngFor="let item of createRange(orient);let i=index " [style.width]="getclassfromorientation(orient) + '%'" style="float:left;min-width: 170px;border:1px solid gray;">
-
-
-              <!--[innerHTML]="pagedata.contetntData[pagecounter].data"-->
+  <div *ngFor="let item of createRange(orient);let i=index " [style.width]="getclassfromorientation(orient) + '%'" style="float:left;min-width: 170px;border:1px solid gray;">
 
 
-{{pagedataService.pagecounter}}
-              <app-html [htmlstring]="pagedata.contetntData[pagedataService.pagecounter]?.data" *ngIf="pagedata.contetntData[pagedataService.pagecounter]?.type=='Html'" >
-
-              </app-html>
-              {{incrementpagecounter()}}
-            
-              <!--</div>  -->
-            </div>
+    <!--[innerHTML]="pagedata.contetntData[pagecounter].data"-->
 
 
-          </div>
-          <!--body part end -->
+    {{pagedataService.pagecounter}}
+    <app-html [htmlstring]="pagedata.contetntData[pagedataService.pagecounter]?.data" *ngIf="pagedata.contetntData[pagedataService.pagecounter]?.type=='Html'">
+
+    </app-html>
+    {{incrementpagecounter()}}
+
+    <!--</div>  -->
+  </div>
 
 
-        
+</div>
+<!--body part end -->
