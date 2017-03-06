@@ -11,6 +11,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class PageComponent implements AfterViewInit, OnInit {
 
+  headerData: any = {};
+  isHeader: boolean;
   constructor(private pagedataService: PagedataService, private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef, public zone: NgZone) {
     this.route.params
@@ -46,21 +48,18 @@ export class PageComponent implements AfterViewInit, OnInit {
   pagecounter = 0 as number;
 
   getpagedata(name: string): void {
-
     let pagename = '';
     this.pagecounter = 0;
     this.data = {};
     pagename = name;
-    console.log(pagename);
-
-    this.pagedataService.getData(pagename, true).subscribe(
+    this.headerData = localStorage.getItem('global');
+    this.isHeader = this.headerData == null ? true : false;
+    this.pagedataService.getData(pagename, this.isHeader).subscribe(
       (session) => {
-
         setTimeout(() => {
-
           this.pagedataService.pagecounter = 0;
           this.pagedata = session.pagespecificData;
-          this.pagedataService.GlobalData = session.GlobalData;
+          this.pagedataService.GlobalData = this.isHeader ? session.GlobalData : JSON.parse(this.headerData);
           var content = this.pagedata.contetntData.length;
           var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
 
