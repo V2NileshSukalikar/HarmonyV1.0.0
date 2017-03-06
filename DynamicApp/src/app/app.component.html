@@ -1,13 +1,7 @@
-<a routerLink="/page/Page4" routerLinkActive="active">Page1</a>
-<a routerLink="/page/Page2" routerLinkActive="active">Page2</a>
-
 <html>
-
 <head>
 </head>
-
 <body>
-    <a (click)="getdata()">getdtata</a>
     <div class="flex-container">
         <header>
             <img style="height:80px; width:80px " [src]="globalservice.GlobalData.HeaderData?.Companylogo" alt="logo" />
@@ -15,24 +9,18 @@
         </header>
         <div class="row">
             <div class="col-md-2">
-
                 <nav class="nav">
                     <ul>
                         <li *ngFor="let item of globalservice.GlobalData.MenuListData">
-                            <a [routerLink]="item.MenuUrl" (click)="setlink(item.MenuUrl)" [class.disabled]="isDisabled(item.MenuUrl)" >{{item.MenuName}}</a>
-
+                            <a [routerLink]="item.MenuUrl" (click)="setlink(item.MenuUrl)" [class.disabled]="isDisabled(item.MenuUrl)">{{item.MenuName}}</a>
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="col-md-10">
-
                 <router-outlet></router-outlet>
             </div>
-
         </div>
-
-
         <footer class="footer">{{globalservice.GlobalData.Footerdata?.copyrighttext}}</footer>
     </div>
 </body>
