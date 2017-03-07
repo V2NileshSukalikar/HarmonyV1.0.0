@@ -23,7 +23,7 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagecounter = 0 as number;
         this.pagedataService.searchData=[];
         this.pagedataService.selectedlink = "/page/" + params['token'];
-        this.getpagedata(params['token'])
+        this.getpagedata(params['token']);
 
       });
   }
