@@ -4,15 +4,15 @@
 <body>
     <div class="flex-container">
         <header>
-            <img style="height:80px; width:80px " [src]="{{globalservice.GlobalData.Logo}}" alt="globalservice.GlobalData.Logo" />
-            <h1 style="display: inline;">{{globalservice.GlobalData.Title}}</h1>
+            <img style="height:80px; width:80px " src="{{globalservice.GlobalData?.Logo}}" alt="globalservice.GlobalData?.Logo" />
+            <h1 style="display: inline;">{{globalservice.GlobalData?.Title}}</h1>
 
         </header>
         <div class="row">
             <div class="col-md-2">  
                 <nav class="nav">
                     <ul>
-                        <li *ngFor="let item of globalservice.GlobalData.Menu">
+                        <li *ngFor="let item of globalservice.GlobalData?.Menu">
                             <a [routerLink]="['/page',item.Value]" (click)="setlink(['/page',item.Value])" [class.disabled]="isDisabled(['/page',item.Value])" >{{item.Name}}</a>
                         </li>
                     </ul>
@@ -22,7 +22,7 @@
                 <router-outlet></router-outlet>
             </div>
         </div>
-        <footer class="footer">{{globalservice.GlobalData.Footerdata?.copyrighttext}}</footer>
+        <footer class="footer">{{globalservice.GlobalData?.Footerdata?.copyrighttext}}</footer>
     </div>
 </body>
 
