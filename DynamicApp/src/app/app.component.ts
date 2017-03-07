@@ -23,16 +23,21 @@ export class AppComponent {
 
   setlink(url) {
 
+   // alert(this.globalservice.pagecounter)
+this.globalservice.selectedlink=url.join("/");
+
     // alert(this.globalservice.pagecounter)
-    this.globalservice.selectedlink = url;
+  //  this.globalservice.selectedlink = url;
+
     // this.router.navigate([url]);
 
   }
 
   isDisabled(link) {
 
-    return this.globalservice.selectedlink == link
-  }
+ return   this.globalservice.selectedlink==link.join("/");
+  } 
+
 }
 
 
