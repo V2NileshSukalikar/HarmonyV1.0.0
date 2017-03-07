@@ -59,23 +59,17 @@ export class PageComponent implements AfterViewInit, OnInit {
       (session) => {
         setTimeout(() => {
           this.pagedataService.pagecounter = 0;
-<<<<<<< HEAD
-          this.pagedata = session.s
+          this.pagedata = session.pagespecificData
 
 
-          this.pagedataService.GlobalData = session.g[0];
+          this.pagedataService.GlobalData = session.GlobalData;
           var content = this.pagedata.Data.length;
           var orientarray = this.pagedata.Orientation.split(',');
           this.pagedata.Orientation = this.pagedata.Orientation.split(',').map(function (item) {
             return parseInt(item, 10);
           });
           var orient = this.pagedata.Orientation.reduce((a, b) => a + b, 0);
-=======
-          this.pagedata = session.pagespecificData;
-          this.pagedataService.GlobalData = this.isHeader ? session.GlobalData : JSON.parse(this.headerData);
-          var content = this.pagedata.contetntData.length;
-          var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
->>>>>>> refs/remotes/origin/master
+
 
           if (content > orient) {
             var difference = content - orient;
