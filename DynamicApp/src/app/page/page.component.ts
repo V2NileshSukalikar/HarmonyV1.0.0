@@ -59,12 +59,10 @@ export class PageComponent implements AfterViewInit, OnInit {
       (session) => {
         setTimeout(() => {
           this.pagedataService.pagecounter = 0;
-          this.pagedata = session.pagespecificData
-
-
+          this.pagedata = session.pagespecificData;
           this.pagedataService.GlobalData = session.GlobalData;
           var content = this.pagedata.Data.length;
-          var orientarray = this.pagedata.Orientation.split(',');
+
           this.pagedata.Orientation = this.pagedata.Orientation.split(',').map(function (item) {
             return parseInt(item, 10);
           });
