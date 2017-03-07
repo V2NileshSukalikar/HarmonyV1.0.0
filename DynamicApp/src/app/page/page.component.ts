@@ -18,7 +18,7 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagedata = {};
         this.data = {} as any;
         this.pagecounter = 0 as number;
-this.pagedataService.selectedlink="/page/"+params['token'];
+        this.pagedataService.selectedlink = "/page/" + params['token'];
         this.getpagedata(params['token'])
       });
   }
@@ -62,16 +62,20 @@ this.pagedataService.selectedlink="/page/"+params['token'];
 
         setTimeout(() => {
           this.pagedataService.pagecounter = 0;
-          this.pagedata = session.pagespecificData
+          this.pagedata = session.s
 
 
-          this.pagedataService.GlobalData = session.GlobalData;
-          var content = this.pagedata.contetntData.length;
-          var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
+          this.pagedataService.GlobalData = session.g[0];
+          var content = this.pagedata.Data.length;
+          var orientarray = this.pagedata.Orientation.split(',');
+          this.pagedata.Orientation = this.pagedata.Orientation.split(',').map(function (item) {
+            return parseInt(item, 10);
+          });
+          var orient = this.pagedata.Orientation.reduce((a, b) => a + b, 0);
 
           if (content > orient) {
             var difference = content - orient;
-            var lastdata = this.pagedata.orientation[this.pagedata.orientation.length - 1];
+            var lastdata = this.pagedata.Orientation[this.pagedata.Orientation.length - 1];
             var counter = 0;
             if (difference > lastdata) {
               counter = Math.ceil(difference / lastdata);
@@ -81,7 +85,7 @@ this.pagedataService.selectedlink="/page/"+params['token'];
             }
 
             for (var i = 0; i < counter; i++) {
-              this.pagedata.orientation.push(lastdata);
+              this.pagedata.Orientation.push(lastdata);
             }
           }
 
@@ -97,7 +101,7 @@ this.pagedataService.selectedlink="/page/"+params['token'];
   }
 
   incrementpagecounter() {
-    if (this.pagedata != null && this.pagedataService.pagecounter < this.pagedata.contetntData.length)
+    if (this.pagedata != null && this.pagedataService.pagecounter < this.pagedata.Data.length)
     { this.pagedataService.pagecounter = this.pagedataService.pagecounter + 1; }
     //     else
     //     {
@@ -108,9 +112,13 @@ this.pagedataService.selectedlink="/page/"+params['token'];
 
   }
 
-  getclassfromorientation(orient: number): number {
+  getclassfromOrientation(orient: number): number {
     var data = Math.round(100 / orient);
     return data;
+  }
+
+  isdataOver() {
+    return !(this.pagedataService.pagecounter == this.pagedata.Data.length)
   }
 
   createRange(number): any {
