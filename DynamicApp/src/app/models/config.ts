@@ -7,10 +7,8 @@ export class Config {
 
     constructor() {
         this.headers = new Headers({ 'Content-Type': 'application/json' });
-//<<<<<<< HEAD
-        this.apiURl = 'http://localhost:53142/api/CMSData/GetCMSJsonData';  // URL to web api
-// =======
-//         this.apiURl = 'http://localhost:53142/api/CMSData/GetcmsData';  // URL to web api
-// >>>>>>> refs/remotes/origin/master
+
+        this.apiURl = 'http://localhost:53142/api/CMSData/GetCMSJsonData';  
+
     }
 }
