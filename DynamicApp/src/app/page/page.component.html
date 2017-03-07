@@ -11,16 +11,16 @@
 
 
       {{pagedataService.pagecounter}}
-      
+
       <app-html [htmlstring]="pagedata?.Data[pagedataService.pagecounter]?.Descr" *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='Static'">
 
-        
-
-      </app-html> 
-       <app-coc [CocData]="pagedata?.Data[pagedataService.pagecounter]" *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='COC'"></app-coc>
 
 
-       <app-search [SearchNo]="pagedata?.Data[pagedataService.pagecounter]?.Search"  *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='Search'" ></app-search>
+      </app-html>
+      <app-coc [CocData]="pagedata?.Data[pagedataService.pagecounter]" *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='COC'"></app-coc>
+
+
+      <app-search [SearchNo]="pagedata?.Data[pagedataService.pagecounter]?.Search" *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='Search'"></app-search>
       {{incrementpagecounter()}}
 
       <!--</div>  -->
@@ -28,5 +28,30 @@
   </div>
 
 
-</div>
+  
 <!--body part end -->
+</div>
+
+<div *ngFor="let item of pagedataService.searchData">
+    <h1>data</h1>
+
+    <a href="" ><span class="search_provider_hyperlink" title="item.ProviderName">{{item.ProviderName}}</span></a> 
+    <a  data-provider-id="4c922a32-43f1-4a34-b122-f221a3812562"><span class="clickfordetails" title="A - 1 Cleaning"> (Click for details) </span></a>
+    <div
+      class="fetchData"><span >{{item.Address}}</span></div>
+  <div
+    class="fetchData"><span title="item.Phone">{{item.Phone}}</span></div>
+<div>
+  <div class="fetchData"><span><strong>Website: </strong><a  target="_blank"><span class="websiteLink">{{item.WebSite}}</span></a>
+    </span>
+  </div>
+  <div class="fetchData"><strong>Detailed Description: </strong><span title="">{{item.LongDescription}}</span></div>
+  <div class="fetchData"><strong>Notes: </strong><span title="Test">{{item.Neighborhood}}</span></div>
+  <div class="fetchData"><strong>Services: </strong>
+  <table>
+    <tr *ngFor="let ser of item.Service">
+      <td>{{serv}}</td>
+    </tr>
+  </table>
+  </div>
+</div>

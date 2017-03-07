@@ -17,12 +17,27 @@ export class PagedataService {
     config = new Config();
     pagecounter = 0 as number;
     selectedlink: string;
-
+    searchData: any[] = [];
     private data: any = {};
     private observable: Observable<any>;
 
     constructor(private http: Http) {
     };
+
+
+    getsearchData(searchText: string): any {
+        const headers = new Headers();
+
+        headers.append('Content-Type', 'application/json');
+        // create the request, store the `Observable` for subsequent subscribers
+        const url = this.config.Searchurl + '/' + searchText;
+       
+       return this.http.get(url).toPromise().then
+      (
+      response => response.json() as any[]
+
+      ).catch(this.handleError);
+    }
 
     getData(pageName: string, isHeader: boolean): any {
         if (this.data) {

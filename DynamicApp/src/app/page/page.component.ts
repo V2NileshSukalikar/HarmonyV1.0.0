@@ -13,6 +13,7 @@ export class PageComponent implements AfterViewInit, OnInit {
 
   headerData: any = {};
   isHeader: boolean;
+  
   constructor(private pagedataService: PagedataService, private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef, public zone: NgZone) {
     this.route.params
@@ -20,6 +21,7 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagedata = {};
         this.data = {} as any;
         this.pagecounter = 0 as number;
+        this.pagedataService.searchData=[];
         this.pagedataService.selectedlink = "/page/" + params['token'];
         this.getpagedata(params['token']);
 
@@ -123,6 +125,13 @@ export class PageComponent implements AfterViewInit, OnInit {
     }
     return items;
   }
+
+  
+
+
+
+
+
 
 }
 
