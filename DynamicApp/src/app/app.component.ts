@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'app works!';
 
   data = {} as any;
-  constructor(private globalservice: PagedataService,private router: Router) {
+  constructor(private globalservice: PagedataService, private router: Router) {
 
     this.data = globalservice.GlobalData;
   }
@@ -25,14 +25,19 @@ export class AppComponent {
 
    // alert(this.globalservice.pagecounter)
 this.globalservice.selectedlink=url.join("/");
+
+    // alert(this.globalservice.pagecounter)
+  //  this.globalservice.selectedlink = url;
+
     // this.router.navigate([url]);
 
   }
 
-  isDisabled(link){
+  isDisabled(link) {
 
  return   this.globalservice.selectedlink==link.join("/");
   } 
+
 }
 
 

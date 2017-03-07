@@ -11,6 +11,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class PageComponent implements AfterViewInit, OnInit {
 
+  headerData: any = {};
+  isHeader: boolean;
   constructor(private pagedataService: PagedataService, private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef, public zone: NgZone) {
     this.route.params
@@ -20,17 +22,14 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagecounter = 0 as number;
         this.pagedataService.selectedlink = "/page/" + params['token'];
         this.getpagedata(params['token'])
+
       });
   }
 
   ngAfterContentInit() {
-
-    // Component content has been initialized
   }
 
   ngOnInit() {
-
-    //this.getpagedata();
     this.pagecounter = 0;
   }
 
@@ -50,18 +49,17 @@ export class PageComponent implements AfterViewInit, OnInit {
   pagecounter = 0 as number;
 
   getpagedata(name: string): void {
-
     let pagename = '';
     this.pagecounter = 0;
     this.data = {};
     pagename = name;
-    console.log(pagename);
-
-    this.pagedataService.getCMSData(pagename, true).then(
+    this.headerData = localStorage.getItem('global');
+    this.isHeader = this.headerData == null ? true : false;
+    this.pagedataService.getData(pagename, this.isHeader).subscribe(
       (session) => {
-
         setTimeout(() => {
           this.pagedataService.pagecounter = 0;
+<<<<<<< HEAD
           this.pagedata = session.s
 
 
@@ -72,6 +70,12 @@ export class PageComponent implements AfterViewInit, OnInit {
             return parseInt(item, 10);
           });
           var orient = this.pagedata.Orientation.reduce((a, b) => a + b, 0);
+=======
+          this.pagedata = session.pagespecificData;
+          this.pagedataService.GlobalData = this.isHeader ? session.GlobalData : JSON.parse(this.headerData);
+          var content = this.pagedata.contetntData.length;
+          var orient = this.pagedata.orientation.reduce((a, b) => a + b, 0);
+>>>>>>> refs/remotes/origin/master
 
           if (content > orient) {
             var difference = content - orient;
@@ -90,7 +94,6 @@ export class PageComponent implements AfterViewInit, OnInit {
           }
 
           console.log(session.pagespecificData);
-
         }
           , 100);
       }

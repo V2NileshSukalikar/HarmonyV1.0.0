@@ -1,38 +1,27 @@
-<a routerLink="/page/Page4" routerLinkActive="active">Page1</a>
-<a routerLink="/page/Page2" routerLinkActive="active">Page2</a>
-
 <html>
-
 <head>
 </head>
-
 <body>
-    <a (click)="getdata()">getdtata</a>
     <div class="flex-container">
         <header>
-            <img style="height:80px; width:80px " [src]="globalservice.GlobalData.Logo" alt="globalservice.GlobalData.Logo" />
+            <img style="height:80px; width:80px " [src]="{{globalservice.GlobalData?.Logo}}" alt="globalservice.GlobalData.Logo" />
             <h1 style="display: inline;">{{globalservice.GlobalData.Title}}</h1>
+
         </header>
         <div class="row">
-            <div class="col-md-2">
-
+            <div class="col-md-2">  
                 <nav class="nav">
                     <ul>
                         <li *ngFor="let item of globalservice.GlobalData.Menu">
                             <a [routerLink]="['/page',item.Value]" (click)="setlink(['/page',item.Value])" [class.disabled]="isDisabled(['/page',item.Value])" >{{item.Name}}</a>
-
                         </li>
                     </ul>
                 </nav>
             </div>
             <div class="col-md-10">
-
                 <router-outlet></router-outlet>
             </div>
-
         </div>
-
-
         <footer class="footer">{{globalservice.GlobalData.Footerdata?.copyrighttext}}</footer>
     </div>
 </body>
