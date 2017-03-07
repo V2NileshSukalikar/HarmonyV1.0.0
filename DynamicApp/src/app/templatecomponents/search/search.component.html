@@ -12,7 +12,7 @@
         </div>
         <div id="AtoZLinks" class="smallFont">
             <ul class="alphalist">
-                <li><a href="#" data-val="9" title="0-9">0-9</a></li>
+                <li><a  data-val="9" title="0-9" (click)="searchDatabyString('A')">0-9</a></li>
                 <li><a href="#" data-val="A" title="A">A</a></li>
                 <li><a href="#" data-val="B" title="B">B</a></li>
                 <li><a href="#" data-val="C" title="C">C</a></li>
@@ -63,7 +63,7 @@
                         </label>
             <input type="text" id="txtQuickSearch" class="search_pro" title="Please enter Search criteria to Search:" data-required="true"
                 data-required-message="Please enter Search for.">
-            <input type="button" id="btnQuickSearch" data-default-button="true" value="Search" title="Search">
+            <input type="button" id="btnQuickSearch" data-default-button="true" value="Search" title="Search" (click)="searchDatabyString('A')">
         </div>
     </fieldset>
 </div>
@@ -215,7 +215,7 @@
                                 </div>
                             </fieldset>
                             <div id="divSearchButtons" class="right smallFont">
-                                <input id="btnAdvancedSearch" type="button" data-default-button="true" value="Search" title="Click to Search">
+                                <input id="btnAdvancedSearch" type="button" data-default-button="true" value="Search" title="Click to Search" (click)="searchDatabyString('a')">
 
                             </div>
                         </div>
