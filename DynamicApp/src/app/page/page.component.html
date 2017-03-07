@@ -1,7 +1,7 @@
 <!-- this is Body part -->
 
-<h4>orientation {{pagedata.Orientation}}</h4>
-<div *ngFor="let orient of pagedata.Orientation;let j=index " class="row">
+<h4>orientation {{pagedata?.Orientation}}</h4>
+<div *ngFor="let orient of pagedata?.Orientation;let j=index " class="row">
 
   <div *ngIf="isdataOver()">
     <div *ngFor="let item of createRange(orient);let i=index " [style.width]="getclassfromOrientation(orient) + '%'" style="float:left;min-width: 170px;border:1px solid gray;">
@@ -12,14 +12,15 @@
 
       {{pagedataService.pagecounter}}
       
-      <app-html [htmlstring]="pagedata.Data[pagedataService.pagecounter]?.Descr" *ngIf="pagedata.Data[pagedataService.pagecounter]?.Type=='Static'">
+      <app-html [htmlstring]="pagedata?.Data[pagedataService.pagecounter]?.Descr" *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='Static'">
 
         
 
       </app-html> 
-       <app-coc [CocData]="pagedata.Data[pagedataService.pagecounter]" *ngIf="pagedata.Data[pagedataService.pagecounter]?.Type=='COC'"></app-coc>
+       <app-coc [CocData]="pagedata?.Data[pagedataService.pagecounter]" *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='COC'"></app-coc>
 
-       <app-search [SearchNo]="pagedata.Data[pagedataService.pagecounter]?.Search"  *ngIf="pagedata.Data[pagedataService.pagecounter]?.Type=='Search'" ></app-search>
+
+       <app-search [SearchNo]="pagedata?.Data[pagedataService.pagecounter]?.Search"  *ngIf="pagedata?.Data[pagedataService.pagecounter]?.Type=='Search'" ></app-search>
       {{incrementpagecounter()}}
 
       <!--</div>  -->

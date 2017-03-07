@@ -18,7 +18,7 @@ export class PagedataService {
     pagecounter = 0 as number;
     selectedlink: string;
 
-    private data: any;
+    private data: any = {};
     private observable: Observable<any>;
 
     constructor(private http: Http) {
@@ -27,7 +27,7 @@ export class PagedataService {
     getData(pageName: string, isHeader: boolean): any {
         if (this.data) {
             if (this.data.PageName === pageName) {
-                if (this.data.s.isCacheble) {
+                if (this.data.pagespecificData.isCacheble) {
                     return Observable.of(this.data);
                 } else {
                     return this.getDataFromServe(pageName, isHeader);
@@ -46,8 +46,8 @@ export class PagedataService {
 
     private isLocalStorageDataAvailable(pageName: string, isHeader: boolean): any {
         const storagedata: any = {};
-        const isGlobalDataAvailable = localStorage.getItem('global')=="undefined"?null:localStorage.getItem('global');
-        const isPageDataAvailable = localStorage.getItem(pageName)=="undefined"?null:localStorage.getItem(pageName);
+        const isGlobalDataAvailable = localStorage.getItem('global') == "undefined" ? null : localStorage.getItem('global');
+        const isPageDataAvailable = localStorage.getItem(pageName) == "undefined" ? null : localStorage.getItem(pageName);
 
         storagedata.GlobalData = JSON.parse(isGlobalDataAvailable);
         if (isPageDataAvailable != null) {
@@ -75,12 +75,15 @@ export class PagedataService {
                 if (response.status === 400) {
                     return 'FAILURE';
                 } else if (response.status === 200) {
-                    this.data = response.json() as any;
-                    if (localStorage.getItem('global') == null ||localStorage.getItem('global')=="undefined") {
-                        localStorage.setItem('global', JSON.stringify(this.data.g));
+                    const result = response.json() as any;
+                    this.data.GlobalData = result.g;
+                    this.data.pagespecificData = result.s;
+                    this.data.pageName = result.pageName;
+                    if (localStorage.getItem('global') == null || localStorage.getItem('global') == "undefined") {
+                        localStorage.setItem('global', JSON.stringify(this.data.GlobalData));
                     }
-                    if (this.data.s.isCacheble) {
-                        localStorage.setItem(pageName, JSON.stringify(this.data.s));
+                    if (this.data.pagespecificData.isCacheble) {
+                        localStorage.setItem(pageName, JSON.stringify(this.data.pagespecificData));
                     } else {
                         if (localStorage.getItem(pageName) != null) {
                             localStorage.removeItem(pageName);
