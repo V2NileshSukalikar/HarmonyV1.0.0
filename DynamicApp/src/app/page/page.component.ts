@@ -1,5 +1,5 @@
 
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, NgZone, OnChanges } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, NgZone, OnChanges, ChangeDetectionStrategy } from '@angular/core';
 import { PagedataService } from '../services/pagedata.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -7,13 +7,16 @@ import { ActivatedRoute, Params } from '@angular/router';
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.css'],
+  changeDetection: ChangeDetectionStrategy.Default
 
 })
 export class PageComponent implements AfterViewInit, OnInit {
 
   headerData: any = {};
   isHeader: boolean;
-  
+  widthofele: number[] = [];
+  pagedataobj:any[]= [];
+
   constructor(private pagedataService: PagedataService, private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef, public zone: NgZone) {
     this.route.params
@@ -21,10 +24,11 @@ export class PageComponent implements AfterViewInit, OnInit {
         this.pagedata = {};
         this.data = {} as any;
         this.pagecounter = 0 as number;
-        this.pagedataService.searchData=[];
+        this.pagedataobj=[];
+        //this.pagedataService.searchData=[];
         this.pagedataService.selectedlink = "/page/" + params['token'];
         this.getpagedata(params['token'])
-
+        
       });
   }
 
@@ -83,17 +87,82 @@ export class PageComponent implements AfterViewInit, OnInit {
             }
 
             for (var i = 0; i < counter; i++) {
+
               this.pagedata.Orientation.push(lastdata);
             }
+
+
+
+
+
           }
 
-          console.log(session.pagespecificData);
+          var h = 0;
+          for (var i = 0; i < this.pagedata.Orientation.length; i++) {
+
+            var contentdata = [];
+
+            for (var z = 1; z <= this.pagedata.Orientation[i]; z++) {
+              var data = 100 / this.pagedata.Orientation[i];
+              this.widthofele.push(data);
+              var subdata = { width: data, Data: this.pagedata.Data[h] };
+              contentdata.push(subdata);
+              h++;
+              if(h==this.pagedata.Data.length)
+              {
+                break;
+              }
+            }
+
+
+            this.pagedataobj.push(contentdata);
+            if(h==this.pagedata.Data.length)
+              {
+                break;
+              }
+
+            // this.pagedata.Orientation.push(lastdata);
+          }
+
+          console.log( this.pagedataobj);
+          this.cdRef.detectChanges();
         }
           , 100);
       }
     );
 
 
+
+  }
+
+  getclassRow(index: number): boolean {
+
+    var data = 0;
+    if (index == 0) {
+      return true;
+    }
+
+    for (var i = (index - 1); i >= 0; i--) {
+      if (i < (index - 1)) {
+
+        if (this.widthofele[i] == this.widthofele[i + 1]) {
+          data = this.widthofele[i] + data;
+        }
+      }
+      else {
+        data = this.widthofele[i] + data;
+
+      }
+
+      if (data > 95) {
+        return true;
+
+      }
+
+
+    }
+
+    return false;
 
   }
 
@@ -114,6 +183,14 @@ export class PageComponent implements AfterViewInit, OnInit {
     return data;
   }
 
+  getclassfromOrientation1(orient: number): number {
+
+
+    //  var data  this.pagedata.Orientation
+    var data = Math.round(100 / orient);
+    return data;
+  }
+
   isdataOver() {
     return !(this.pagedataService.pagecounter == this.pagedata.Data.length)
   }
@@ -126,7 +203,7 @@ export class PageComponent implements AfterViewInit, OnInit {
     return items;
   }
 
-  
+
 
 
 
