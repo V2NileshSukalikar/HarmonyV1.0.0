@@ -28,7 +28,7 @@ export class PageComponent implements AfterViewInit, OnInit {
         //this.pagedataService.searchData=[];
         this.pagedataService.selectedlink = "/page/" + params['token'];
         this.getpagedata(params['token'])
-        
+
       });
   }
 

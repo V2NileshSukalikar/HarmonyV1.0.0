@@ -93,7 +93,7 @@ export class PagedataService {
                     const result = response.json() as any;
                     this.data.GlobalData = result.g;
                     this.data.pagespecificData = result.s;
-                    this.data.pageName = result.pageName;
+                    this.data.PageName = result.pageName;
                     if (localStorage.getItem('global') == null || localStorage.getItem('global') == "undefined") {
                         localStorage.setItem('global', JSON.stringify(this.data.GlobalData));
                     }
